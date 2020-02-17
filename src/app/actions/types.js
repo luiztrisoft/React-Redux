@@ -1,0 +1,4 @@
+export const GET_CLIENTES = 'GET_CLIENTES',
+             ADD_CLIENTE = 'ADD_CLIENTE',
+             UPDATE_CLIENTE = 'UPDATE_CLIENTE',
+             REMOVE_CLIENTE = 'REMOVE_CLIENTE';
