@@ -24,6 +24,13 @@ class ListaClientes extends React.Component{
         else  if(ordenacao === 'criacao') return new Date(a.criadoEm) - new Date(b.criadoEm)
     }
 
+
+    pesquisa = ({nome, endereco, email, cpf}) => {
+        const {pesquisa} = this.props;
+        const item = [nome, endereco, email, cpf].join(';')
+        return item.includes(pesquisa)
+    }
+
     render(){
         const {clientes: data} = this.props
         return (
@@ -40,6 +47,7 @@ class ListaClientes extends React.Component{
                     <tbody>
                         {
                             data
+                            .filter(this.pesquisa)
                             .sort(this.ordenacao)
                             .map((cliente, index) =>(
                                 <Cliente cliente={cliente} key={index } /> 
@@ -55,7 +63,8 @@ class ListaClientes extends React.Component{
 
 const mapStateToProps = state => ({
     clientes: state.clientes.clientes,
-    ordenacao: state.clientes.ordenacao
+    ordenacao: state.clientes.ordenacao,
+    pesquisa: state.clientes.pesquisa
 });
 
 export default connect(mapStateToProps, actions)(ListaClientes)
