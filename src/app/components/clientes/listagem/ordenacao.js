@@ -14,8 +14,8 @@ class Ordenacao extends React.Component {
                 <select 
                     value={valor}
                     onChange={this.props.setOrdenacao}>
-                    <option value="a-z">Alfabéstica de A-Z</option>
-                    <option value="z-a">Alfabéstica de Z-A</option>
+                    <option value="a-z">Alfabética de A-Z</option>
+                    <option value="z-a">Alfabética de Z-A</option>
                     <option value="criacao">Data de criação</option>
                 </select>
             </div>

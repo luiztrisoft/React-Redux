@@ -2,7 +2,7 @@ import React from 'react'
 
 import Ordenacao from './ordenacao'
 import Pesquisa from './pesquisa'
-import Formulario from '../formulario'
+// import Formulario from '../formulario'
 import ListaClientes from './lista'
 
 const Opcoes =()=>(
@@ -24,7 +24,7 @@ export default class Listagem extends React.Component{
                     <h2>Lista de Clientes</h2>
                 </div>
                 <hr/>
-                <Formulario/>
+                {/* <Formulario/> */}
                 <br />
                 <Opcoes />
                 <br />

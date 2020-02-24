@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions';
 
-const Cliente = (cliente) =>(
-    <div>
+const Cliente = ({cliente}) =>(
+    <tr>
         <td>{cliente.nome}</td>
         <td>{cliente.telefone}</td>
         <td>{cliente.email}</td>
         <td>{cliente.cpf}</td>
-    </div>
+    </tr>
 )
 
 class ListaClientes extends React.Component{
@@ -24,15 +24,15 @@ class ListaClientes extends React.Component{
         else  if(ordenacao === 'criacao') return new Date(a.criadoEm) - new Date(b.criadoEm)
     }
 
-
     pesquisa = ({nome, endereco, email, cpf}) => {
         const {pesquisa} = this.props;
+        if(!pesquisa) return true;
         const item = [nome, endereco, email, cpf].join(';')
         return item.includes(pesquisa)
     }
 
     render(){
-        const {clientes: data} = this.props
+        const {clientes: data} = this.props;
         return (
             <div className="ListaClientes">
                 <table>
@@ -46,16 +46,15 @@ class ListaClientes extends React.Component{
                     </thead>
                     <tbody>
                         {
-                            data
+                            (data || [])
                             .filter(this.pesquisa)
                             .sort(this.ordenacao)
-                            .map((cliente, index) =>(
+                            .map((cliente, index) =>(                                                                
                                 <Cliente cliente={cliente} key={index } /> 
                             ))
                         }
                     </tbody>
-                </table>
-               
+                </table>               
             </div>
         )
     }

@@ -12,7 +12,7 @@ class Pesquisa extends React.Component {
         return ( 
             <div  className="Pesquisa">
                 <input                    
-                    value={valor} 
+                    value={valor || ""} 
                     onChange={onChange}
                     placeholder={"Pesquise aqui..."}/>
             </div>
