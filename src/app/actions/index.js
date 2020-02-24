@@ -1,4 +1,10 @@
-import {GET_CLIENTES,ADD_CLIENTE,UPDATE_CLIENTE, REMOVE_CLIENTE} from './types';
+import {
+    GET_CLIENTES,
+    ADD_CLIENTE,
+    UPDATE_CLIENTE, 
+    REMOVE_CLIENTE, 
+    SET_ORDENACAO
+} from './types';
 
 const getDate = () => new Date().getTime();
 const generateId = () => Math.floor(Math.random() * 100000 + 100000);
@@ -29,3 +35,7 @@ export const addCliente = (cliente) => ({ type: ADD_CLIENTE, cliente: prepararCl
 export const updateCliente = (id, cliente) => ({ type: UPDATE_CLIENTE, cliente:{id, ...cliente, atualizadoEm: getDate()}});
 
 export const removeCliente = (id) => ({ type: REMOVE_CLIENTE, id});
+
+//ACTIONS DE APOIO
+
+export const setOrdenacao = (ev) => ({ type: SET_ORDENACAO, ordenacao: ev.target.value});

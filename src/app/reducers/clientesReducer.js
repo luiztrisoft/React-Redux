@@ -2,10 +2,11 @@ import {
     GET_CLIENTES,
     ADD_CLIENTE,
     UPDATE_CLIENTE, 
-    REMOVE_CLIENTE
+    REMOVE_CLIENTE,
+    SET_ORDENACAO
 } from '../actions/types';
 
-export default (state = {}, action) =>{
+export default (state = {ordenacao: "a-z"}, action) =>{
 
     switch(action.type){
         case GET_CLIENTES:
@@ -27,6 +28,11 @@ export default (state = {}, action) =>{
             return {
                 ...state,
                 clientes: state.clientes.filter((_cliente) => _cliente.id !== action.id)
+            }
+        case SET_ORDENACAO:
+            return {
+                ...state,
+                ordenacao: action.ordenacao
             }
         default:
             return state;

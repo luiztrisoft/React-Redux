@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../../../actions';
 
 const Cliente = (cliente) =>(
     <div>
@@ -9,9 +11,21 @@ const Cliente = (cliente) =>(
     </div>
 )
 
-export default class ListaClientes extends React.Component{
+class ListaClientes extends React.Component{
+
+    componentDidMount() {
+        this.props.getClientes();
+    }
+
+    ordenacao = (a, b) => {
+        const { ordenacao } = this.props;
+        if(ordenacao === 'a-z') return a.nome.localeCompare(b.nome)
+        else if(ordenacao === 'z-a') return -1 * a.nome.localeCompare(b.nome)
+        else  if(ordenacao === 'criacao') return new Date(a.criadoEm) - new Date(b.criadoEm)
+    }
+
     render(){
-        const {data} = this.props
+        const {clientes: data} = this.props
         return (
             <div className="ListaClientes">
                 <table>
@@ -25,7 +39,9 @@ export default class ListaClientes extends React.Component{
                     </thead>
                     <tbody>
                         {
-                            data.map((cliente, index) =>(
+                            data
+                            .sort(this.ordenacao)
+                            .map((cliente, index) =>(
                                 <Cliente cliente={cliente} key={index } /> 
                             ))
                         }
@@ -36,3 +52,10 @@ export default class ListaClientes extends React.Component{
         )
     }
 }
+
+const mapStateToProps = state => ({
+    clientes: state.clientes.clientes,
+    ordenacao: state.clientes.ordenacao
+});
+
+export default connect(mapStateToProps, actions)(ListaClientes)
