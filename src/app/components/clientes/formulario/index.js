@@ -1,11 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../../actions'
 
 const Input = (props) => (
     <div>
-        {props.label && <label>{props.label}</label>}        
-        <input 
+        {props.label && <label>{props.label}</label>}
+        <input
             value={props.value}
             onChange={props.onChange}
             placeholder={props.placeholder}
@@ -34,12 +34,12 @@ class Formulario extends React.Component {
     }
 
     validar = () => {
-        const {form} = this.state;
+        const { form } = this.state;
         const erros = {};
         ["nome", "telefone", "cpf", "email"].forEach((item) => {
-            if(!form[item]) erros[item] = "Digite o " + item;
+            if (!form[item]) erros[item] = "Digite o " + item;
         })
-        this.setState({erros})
+        this.setState({ erros })
         return Object.keys(erros).length === 0;
     }
 
@@ -51,8 +51,8 @@ class Formulario extends React.Component {
         });
     }
 
-    handleSubmit = () => {        
-        if(!this.validar()) return null;
+    handleSubmit = () => {
+        if (!this.validar()) return null;
         const { form } = this.state;
         this.props.addCliente(form);
         this.mostrarForm();
@@ -66,24 +66,24 @@ class Formulario extends React.Component {
                     <Input
                         value={form.nome}
                         onChange={(ev) => this.onChange('nome', ev)}
-                        label={"Nome"} 
-                        erro={erros.nome}/>
+                        label={"Nome"}
+                        erro={erros.nome} />
                     <Input
                         value={form.telefone}
                         onChange={(ev) => this.onChange('telefone', ev)}
-                        label={"Telefone"} 
-                        erro={erros.telefone}/>
+                        label={"Telefone"}
+                        erro={erros.telefone} />
                     <Input
                         value={form.cpf}
                         onChange={(ev) => this.onChange('cpf', ev)}
                         label={"CPF"}
-                        erro={erros.cpf}/>
+                        erro={erros.cpf} />
                     <Input
                         value={form.email}
                         onChange={(ev) => this.onChange('email', ev)}
                         label={"Email"}
                         type={"email"}
-                        erro={erros.email}/>
+                        erro={erros.email} />
                     <div>
                         <button onClick={this.handleSubmit} className="botao botao-verde">
                             Salvar
@@ -96,20 +96,20 @@ class Formulario extends React.Component {
             </div>
         );
     }
-    
-    renderBotao(){
-		return (
-			<div className="Formulario">
-				<button onClick={this.mostrarForm} className="botao botao-azul">
-					+ ADICIONAR CLIENTE
-				</button>
-			</div>
-		)
-	}
 
-	render(){
-		return this.state.mostrarForm ? this.renderFormulario() : this.renderBotao();
-	}
+    renderBotao() {
+        return (
+            <div className="Formulario">
+                <button onClick={this.mostrarForm} className="botao botao-azul">
+                    + ADICIONAR CLIENTE
+				</button>
+            </div>
+        )
+    }
+
+    render() {
+        return this.state.mostrarForm ? this.renderFormulario() : this.renderBotao();
+    }
 }
 
 export default connect(null, actions)(Formulario);
