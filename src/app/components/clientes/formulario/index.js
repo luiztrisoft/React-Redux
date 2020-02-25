@@ -4,12 +4,13 @@ import * as actions from '../../../actions'
 
 const Input = (props) => (
     <div>
-        {props.label && <label>{props.label}</label>}
-        <input
+        {props.label && <label>{props.label}</label>}        
+        <input 
             value={props.value}
             onChange={props.onChange}
             placeholder={props.placeholder}
             type={props.type || "text"} />
+        {props.erro && <small>{props.erro}</small>}
     </div>
 )
 
@@ -23,6 +24,7 @@ class Formulario extends React.Component {
                 telefone: "",
                 cpf: ""
             },
+            erros: {},
             mostrarForm: false
         }
     }
@@ -31,39 +33,57 @@ class Formulario extends React.Component {
         this.setState({ mostrarForm: !this.state.mostrarForm })
     }
 
+    validar = () => {
+        const {form} = this.state;
+        const erros = {};
+        ["nome", "telefone", "cpf", "email"].forEach((item) => {
+            if(!form[item]) erros[item] = "Digite o " + item;
+        })
+        this.setState({erros})
+        return Object.keys(erros).length === 0;
+    }
+
     onChange = (field, ev) => {
         const { form } = this.state;
         form[field] = ev.target.value;
-        this.setState({ form });
+        this.setState({ form }, () => {
+            this.validar();
+        });
     }
 
-    handleSubmit = () => {
-        console.log("submit")
+    handleSubmit = () => {        
+        if(!this.validar()) return null;
+        const { form } = this.state;
+        this.props.addCliente(form);
         this.mostrarForm();
     }
 
     renderFormulario() {
-        const { form } = this.state
+        const { form, erros } = this.state
         return (
             <div className="Formulario">
                 <div>
                     <Input
                         value={form.nome}
                         onChange={(ev) => this.onChange('nome', ev)}
-                        label={"Nome"}/>
+                        label={"Nome"} 
+                        erro={erros.nome}/>
                     <Input
                         value={form.telefone}
                         onChange={(ev) => this.onChange('telefone', ev)}
-                        label={"Telefone"} />
+                        label={"Telefone"} 
+                        erro={erros.telefone}/>
                     <Input
                         value={form.cpf}
                         onChange={(ev) => this.onChange('cpf', ev)}
-                        label={"CPF"}/>
+                        label={"CPF"}
+                        erro={erros.cpf}/>
                     <Input
                         value={form.email}
                         onChange={(ev) => this.onChange('email', ev)}
                         label={"Email"}
-                        type={"email"}/>
+                        type={"email"}
+                        erro={erros.email}/>
                     <div>
                         <button onClick={this.handleSubmit} className="botao botao-verde">
                             Salvar
