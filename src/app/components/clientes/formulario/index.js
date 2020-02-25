@@ -85,10 +85,14 @@ class Formulario extends React.Component {
                         type={"email"}
                         erro={erros.email} />
                     <div>
-                        <button onClick={this.handleSubmit} className="botao botao-verde">
+                        <button 
+                            onClick={this.handleSubmit} 
+                            className="botao botao-verde">
                             Salvar
 						</button>
-                        <button onClick={this.mostrarForm} className="botao botao-branco">
+                        <button 
+                            onClick={this.mostrarForm} 
+                            className="botao botao-branco">
                             Cancelar
 						</button>
                     </div>
@@ -100,7 +104,9 @@ class Formulario extends React.Component {
     renderBotao() {
         return (
             <div className="Formulario">
-                <button onClick={this.mostrarForm} className="botao botao-azul">
+                <button 
+                    onClick={this.mostrarForm} 
+                    className="botao botao-azul">
                     + ADICIONAR CLIENTE
 				</button>
             </div>
