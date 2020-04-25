@@ -40,7 +40,8 @@ class Formulario extends React.Component {
             if (!form[item]) erros[item] = "Digite o " + item;
         })
         this.setState({ erros })
-        return Object.keys(erros).length === 0;
+        //Se o objeto erros estiver vazio então retorna válido
+        return Object.keys(erros).length === 0; 
     }
 
     onChange = (field, ev) => {
