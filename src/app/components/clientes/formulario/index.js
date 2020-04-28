@@ -14,20 +14,35 @@ const Input = (props) => (
     </div>
 )
 
+const DEFAULT_STATE = {
+    form: {
+        nome: "",
+        email: "",
+        telefone: "",
+        cpf: ""
+    },
+    erros: {},
+    mostrarForm: false
+}
+
 class Formulario extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            form: {
-                nome: "",
-                email: "",
-                telefone: "",
-                cpf: ""
-            },
-            erros: {},
-            mostrarForm: false
-        }
+        this.state = DEFAULT_STATE;
     }
+
+    componentWillUpdate(nextProps){
+		if( !this.props.cliente && nextProps.cliente ){
+			this.setState({
+				form: nextProps.cliente,
+				erros: {},
+				mostrarForm: true
+			})
+		}
+		if( this.props.cliente && !nextProps.cliente ){
+			this.setState(DEFAULT_STATE)
+		}
+	}
 
     mostrarForm = () => {
         this.setState({ mostrarForm: !this.state.mostrarForm })
@@ -41,7 +56,7 @@ class Formulario extends React.Component {
         })
         this.setState({ erros })
         //Se o objeto erros estiver vazio então retorna válido
-        return Object.keys(erros).length === 0; 
+        return Object.keys(erros).length === 0;
     }
 
     onChange = (field, ev) => {
@@ -55,12 +70,25 @@ class Formulario extends React.Component {
     handleSubmit = () => {
         if (!this.validar()) return null;
         const { form } = this.state;
-        this.props.addCliente(form);
-        this.mostrarForm();
+        const { cliente } = this.props;
+        
+        if(cliente)this.props.updateCliente(cliente.id, form)
+        else this.props.addCliente(form);
+        
+        //this.setState(DEFAULT_STATE) ///TODO Verificar mal funcionamento
+        this.setState({
+            form: {
+                nome: "",
+                email: "",
+                telefone: "",
+                cpf: ""
+            },
+            erros: {},
+            mostrarForm: false})
     }
 
     renderFormulario() {
-        const { form, erros } = this.state
+        const { form, erros } = this.state        
         return (
             <div className="Formulario">
                 <div>
@@ -86,13 +114,13 @@ class Formulario extends React.Component {
                         type={"email"}
                         erro={erros.email} />
                     <div>
-                        <button 
-                            onClick={this.handleSubmit} 
+                        <button
+                            onClick={this.handleSubmit}
                             className="botao botao-verde">
                             Salvar
 						</button>
-                        <button 
-                            onClick={this.mostrarForm} 
+                        <button
+                            onClick={this.mostrarForm}
                             className="botao botao-branco">
                             Cancelar
 						</button>
@@ -105,8 +133,8 @@ class Formulario extends React.Component {
     renderBotao() {
         return (
             <div className="Formulario">
-                <button 
-                    onClick={this.mostrarForm} 
+                <button
+                    onClick={this.mostrarForm}
                     className="botao botao-azul">
                     + ADICIONAR CLIENTE
 				</button>
@@ -119,4 +147,8 @@ class Formulario extends React.Component {
     }
 }
 
-export default connect(null, actions)(Formulario);
+const mapStateToProps = state => ({
+    cliente: state.clientes.cliente
+});
+
+export default connect(mapStateToProps, actions)(Formulario);

@@ -3,6 +3,7 @@ import {
     ADD_CLIENTE,
     UPDATE_CLIENTE, 
     REMOVE_CLIENTE, 
+    SET_CLIENTE,
     SET_ORDENACAO,
     SET_PESQUISA
 } from './types';
@@ -38,6 +39,8 @@ export const updateCliente = (id, cliente) => ({ type: UPDATE_CLIENTE, cliente:{
 export const removeCliente = (id) => ({ type: REMOVE_CLIENTE, id});
 
 //ACTIONS DE APOIO
+
+export const setClienteParaAlterar = (cliente) => ({type: SET_CLIENTE, cliente})
 
 export const setOrdenacao = (ev) => ({ type: SET_ORDENACAO, ordenacao: ev.target.value});
 
